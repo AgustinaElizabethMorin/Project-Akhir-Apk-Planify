@@ -1,0 +1,109 @@
+import java.util.*;
+
+public class Planify {
+    private static String[] todoList = new String [100];
+    private static String[] deadlines = new String[100];
+    private  static int jumlahTugas = 0; 
+    private static Scanner input = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        System.out.println("     Selamat datang di Planify\n" +
+                           " ---------------------------------\n" +
+                           " HH  HH     AAA     LL      OOOOOO\n" +
+                           " HHHHHH    A A A    LL      OO  OO\n" +
+                           " HH  HH   A AAA A   LLLLLL  OO  OO\n" +
+                           " HH  HH  A       A  LLLLLL  OOOOOO\n" +
+                           " ---------------------------------\n");
+
+        System.out.print(" Siapa nama MU ? : ");
+        String nama = input.nextLine();
+        System.out.println(" Hai " + nama + ", Ada tugas baru ya? Semangat!");
+        System.out.println(" Biar kamu gak pusing, sini biar PLANIFY bantu list semua tugas mu, Jom ");
+
+        int menu;
+        do {
+            System.out.println("\nMenu:");
+            System.out.println("1. Tambah Tugas");
+            System.out.println("2. Tampilkan Tugas");
+            System.out.println("3. Hapus Tugas");
+            System.out.println("4. Keluar");
+            System.out.print("Pilih opsi: ");
+            menu = input.nextInt();
+            input.nextLine(); 
+
+            switch (menu) {
+                case 1:
+                    tambahTugas();
+                    break;
+                case 2:
+                    tampilkanTugas(nama);
+                    break;
+                case 3:
+                    hapusTugas();
+                    break;
+                case 4:
+                    System.out.println("Terima kasih telah menggunakan PLANIFY. Good luck!");
+                    break;
+                default:
+                    System.out.println("Pilihan tidak valid.");
+            }
+        } while (menu != 4);
+    }
+
+    // Methode untuk menambah tugas
+    public static void tambahTugas() {
+        if (jumlahTugas < todoList.length) {
+            System.out.print("Masukkan tugas: ");
+            String task = input.nextLine();
+            System.out.print("Masukkan deadline (YYYY-MM-DD) :");
+            String deadline = input.nextLine();
+            deadlines[jumlahTugas] = deadline;
+            todoList[jumlahTugas] = task;
+            jumlahTugas++; 
+            System.out.println("Tugas berhasil ditambahkan.");
+        } else {
+            System.out.println("Daftar tugas sudah penuh.");
+        }
+    }
+
+    // Methode untuk menampilkan tugas
+    public static void tampilkanTugas(String nama) {
+        System.out.println("Daftar Tugas:");
+        if (jumlahTugas > 0) {
+            if (jumlahTugas >= 3) {
+                System.out.println("Banyak sekali Tugasnya, Semangat! " + nama);
+            } else {
+                System.out.println("Jangan lupa dikerjakan.");
+            }
+            for (int i = 0; i < jumlahTugas; i++) {
+                System.out.println((i + 1) + ". " + todoList[i] + "(deadline : " + deadlines[i] + ")");
+            }
+        } else {
+            System.out.println("Tidak ada tugas yang tersedia.");
+        }
+    }
+
+    // Methode untuk menghapus tugas
+    public static void hapusTugas() {
+        if (jumlahTugas == 0) {
+            System.out.println("Tidak ada tugas yang bisa dihapus.");
+            return;
+        }
+        
+        System.out.print("Masukkan nomor tugas yang ingin dihapus: ");
+        int index = input.nextInt() - 1;
+
+        if (index >= 0 && index < jumlahTugas) {
+            for (int i = index; i < jumlahTugas - 1; i++) {
+                todoList[i] = todoList[i + 1]; 
+                deadlines[i] = deadlines[i + 1];
+            }
+            todoList[jumlahTugas - 1] = null; 
+            deadlines[jumlahTugas - 1] = null;
+            jumlahTugas--; 
+            System.out.println("Tugas dihapus.");
+        } else {
+            System.out.println("Nomor tidak valid.");
+        }
+    }
+}
